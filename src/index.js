@@ -6,7 +6,7 @@ const textInputs = document.querySelectorAll('input[type=text]');
 const radioInputs = document.querySelectorAll('input[type=radio]');
 const infoFields = document.querySelectorAll('.info');
 
-const getWeather = async e => {
+function getWeather(e) {
   e.preventDefault();
   let url = 'https://api.openweathermap.org/data/2.5/weather?';
   if (!textInputs[0].hasAttribute('disabled')) {
@@ -37,7 +37,7 @@ const getWeather = async e => {
       });
       console.log(err.message);
     });
-};
+}
 
 function updateInputs() {
   textInputs.forEach(input => {
