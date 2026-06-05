@@ -1,24 +1,25 @@
 'use strict';
 
 const form = document.querySelector('form');
-const textInputs = document.querySelectorAll('input[type=text]');
+const cityNameInput = document.querySelector('#city-name');
+const cityIdInput = document.querySelector('#city-id');
 const radioInputs = document.querySelectorAll('input[type=radio]');
 const infoFields = document.querySelectorAll('.info');
 
 async function getWeather(e) {
   function doUrl() {
-    if (!textInputs[0].value.trim() && !textInputs[1].value.trim()) {
+    if (!cityNameInput.value.trim() && !cityIdInput.value.trim()) {
       throw new Error('Void! One of the fields must be filled in!');
     }
 
     const API_KEY = '09a3c4c45fbe46453b0a970485b97374';
     let data;
 
-    if (!textInputs[0].hasAttribute('disabled')) {
-      const cityName = textInputs[0].value.trim();
+    if (!cityNameInput.hasAttribute('disabled')) {
+      const cityName = cityNameInput.value.trim();
       data = `q=${cityName}`;
-    } else if (!textInputs[1].hasAttribute('disabled')) {
-      const cityId = textInputs[1].value.trim();
+    } else if (!cityIdInput.hasAttribute('disabled')) {
+      const cityId = cityIdInput.value.trim();
       data = `id=${cityId}`;
     }
 
@@ -59,21 +60,24 @@ async function getWeather(e) {
     let errText;
     errText = err.message;
     if (/Void/.test(err.message)) {
-      errText = 'Void field';
+      errText = 'Void';
     }
     infoFields.forEach(field => {
       field.classList.add('error-text');
       field.textContent = errText;
     });
-    console.log(err.message);
+    console.error(err.message);
   }
 }
 
 function updateInputs() {
-  textInputs.forEach(input => {
-    input.toggleAttribute('disabled');
-    input.classList.toggle('disabled');
-  });
+  function toggleInput(inp) {
+    inp.toggleAttribute('disabled');
+    inp.classList.toggle('disabled');
+  }
+
+  toggleInput(cityNameInput);
+  toggleInput(cityIdInput);
 }
 
 radioInputs.forEach(radioInput => {
