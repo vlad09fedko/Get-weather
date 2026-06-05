@@ -111,3 +111,7 @@ input[type='text'] {
 .disabled {
   background-color: var(--border-color);
 }
+
+.error-text {
+  color: red;
+}

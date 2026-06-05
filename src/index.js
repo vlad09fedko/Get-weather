@@ -1,42 +1,72 @@
 'use strict';
 
-const API_KEY = '09a3c4c45fbe46453b0a970485b97374';
 const form = document.querySelector('form');
 const textInputs = document.querySelectorAll('input[type=text]');
 const radioInputs = document.querySelectorAll('input[type=radio]');
 const infoFields = document.querySelectorAll('.info');
 
-function getWeather(e) {
-  e.preventDefault();
-  let url = 'https://api.openweathermap.org/data/2.5/weather?';
-  if (!textInputs[0].hasAttribute('disabled')) {
-    const cityName = textInputs[0].value;
-    url += `q=${cityName}&appid=${API_KEY}&units=metric`;
-  } else if (!textInputs[1].hasAttribute('disabled')) {
-    const cityId = textInputs[1].value;
-    url += `id=${cityId}&appid=${API_KEY}&units=metric`;
+async function getWeather(e) {
+  function doUrl() {
+    if (!textInputs[0].value.trim() && !textInputs[1].value.trim()) {
+      throw new Error('Void! One of the fields must be filled in!');
+    }
+
+    const API_KEY = '09a3c4c45fbe46453b0a970485b97374';
+    let data;
+
+    if (!textInputs[0].hasAttribute('disabled')) {
+      const cityName = textInputs[0].value.trim();
+      data = `q=${cityName}`;
+    } else if (!textInputs[1].hasAttribute('disabled')) {
+      const cityId = textInputs[1].value.trim();
+      data = `id=${cityId}`;
+    }
+
+    return `https://api.openweathermap.org/data/2.5/weather?${data}&appid=${API_KEY}&units=metric`;
   }
-  fetch(url)
-    .then(res => res.json())
-    .then(({ main: { temp, humidity }, wind: { speed } }) => {
-      infoFields.forEach(field => {
-        if (field.id === 'temperature') {
-          field.textContent = temp;
-        }
-        if (field.id === 'wind-speed') {
-          field.textContent = speed;
-        }
-        if (field.id === 'humidity') {
-          field.textContent = humidity;
-        }
-      });
-    })
-    .catch(err => {
-      infoFields.forEach(field => {
-        field.textContent = 'Error';
-      });
-      console.log(err.message);
+
+  async function getData(url) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(res.statusText);
+    return res;
+  }
+
+  function fillOutFields(temp, windSpeed, humidity) {
+    infoFields.forEach(field => {
+      field.classList.remove('error-text');
+      if (field.id === 'temp') {
+        field.textContent = `${temp}° C`;
+      }
+      if (field.id === 'wind-speed') {
+        field.textContent = `${windSpeed} m/s`;
+      }
+      if (field.id === 'humidity') {
+        field.textContent = `${humidity}%`;
+      }
     });
+  }
+
+  try {
+    e.preventDefault();
+    const url = doUrl();
+    const res = await getData(url);
+    const {
+      main: { temp, humidity },
+      wind: { speed: windSpeed },
+    } = await res.json();
+    fillOutFields(temp, windSpeed, humidity);
+  } catch (err) {
+    let errText;
+    errText = err.message;
+    if (/Void/.test(err.message)) {
+      errText = 'Void field';
+    }
+    infoFields.forEach(field => {
+      field.classList.add('error-text');
+      field.textContent = errText;
+    });
+    console.log(err.message);
+  }
 }
 
 function updateInputs() {
