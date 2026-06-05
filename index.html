@@ -7,5 +7,43 @@
     <script src="./src/index.js" defer></script>
     <title>Get weather</title>
   </head>
-  <body></body>
+  <body>
+    <form>
+      <h1>Weather map</h1>
+      <div class="input-container">
+        <label for="city-name">City name</label>
+        <input type="text" id="city-name" name="city-name" />
+      </div>
+      <div class="input-container">
+        <label for="city-id">City ID</label>
+        <input type="text" id="city-id" name="city-id" class="disabled" disabled />
+      </div>
+      <div class="selection-field">
+        <div class="radio-container">
+          <label for="by-name">City name</label>
+          <input type="radio" name="radio-btn" id="by-name" checked />
+        </div>
+        <div class="radio-container">
+          <label for="by-id">City ID</label>
+          <input type="radio" name="radio-btn" id="by-id" />
+        </div>
+      </div>
+      <div class="information-container">
+        <div>
+          <h3>Temperature</h3>
+          <div class="info" id="temperature"></div>
+        </div>
+        <div>
+          <h3>Wind speed</h3>
+          <div class="info" id="wind-speed"></div>
+        </div>
+        <div>
+          <h3>Humidity</h3>
+          <div class="info" id="humidity"></div>
+        </div>
+      </div>
+      <input type="reset" value="Cancel" class="btn" />
+      <input type="submit" value="Weather" class="btn" />
+    </form>
+  </body>
 </html>

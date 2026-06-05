@@ -1,3 +1,113 @@
 * {
   box-sizing: border-box;
 }
+
+:root {
+  --bg-color: #06151e;
+  --border-color: #cdcbc6;
+  --text-color: #f1e9e1;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-size: 1.3em;
+}
+
+form {
+  margin: 10em auto;
+  max-width: 600px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  padding: 1em;
+  border-radius: 1em;
+}
+
+form > * {
+  margin: 1em 0;
+}
+
+h1 {
+  margin: 0;
+}
+
+.input-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: 0.7em;
+  margin-right: 1em;
+  margin-left: 1em;
+  padding: 0 2em;
+}
+
+h3 {
+  margin: 0.5em;
+}
+
+input[type='text'] {
+  font-size: 1em;
+  width: 13em;
+  border-radius: 1em;
+  margin: 0.5em 0;
+  height: 2.5em;
+  text-align: center;
+  color: var(--bg-color);
+}
+
+.selection-field {
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid var(--border-color);
+  border-radius: 0.7em;
+  padding: 0.5em;
+  margin-right: 1em;
+  margin-left: 1em;
+}
+
+.selection-field > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.selection-field > div > * {
+  cursor: pointer;
+  margin: 0.2em 0;
+}
+
+.information-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2em;
+  min-height: 2em;
+  border: 1px solid var(--border-color);
+  border-radius: 0.7em;
+}
+
+.btn {
+  padding: 1em;
+  font-size: 0.75em;
+  border-radius: 1.5em;
+  min-width: 7.5em;
+  margin: 0 1.5em;
+  cursor: pointer;
+  background-color: var(--border-color);
+  color: var(--bg-color);
+}
+
+.btn:hover {
+  transition: 0.4s;
+  background-color: #898a8c;
+}
+
+.disabled {
+  background-color: var(--border-color);
+}
